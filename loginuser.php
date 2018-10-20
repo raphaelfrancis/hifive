@@ -25,24 +25,27 @@ $data = json_decode(file_get_contents("php://input"));
 
 $post->username = $data->username;
 $post->password = md5($data->password);
-//echo json_encode(array('username' => '$post->username',"password"=>$post->password));
-// //return true;
+
+
 
 // Create post
 
 if($qu=$post->login()){
-   
     if($qu=="1")
     {
-        echo json_encode(array('message' => 'success',"username"=>$post->username));
-        return false;
+        echo json_encode(array('message' => 'success'));
+        return true;
     }
     else
     {
-        echo json_encode(array('message' => '$qu'));
+        echo json_encode(array('message' => 'Failed'));
         return true;
+       
     }
-}else{
-    echo json_encode(array('message' => 'Failed'));
-    return true;
+}
+else
+{
+        echo json_encode(array('message' => 'Failed'));
+        return true;
+    
 }

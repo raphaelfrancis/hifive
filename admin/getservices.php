@@ -16,12 +16,16 @@ $db = $database->connect();
 // Instatiate blog post object
 
 $post = new Post($db);
+$data = json_decode(file_get_contents("php://input"));
+
+$post->categoryid = isset($_GET['catid']) ? $_GET['catid'] : die('could not get the value');
 
 //Blog post query
-$result = $post->read();
+$result = $post->getservices();
 //Get row count
 
 $num = $result->rowCount();
+
 //Check if any posts
 if($num > 0 ){
     // Post array
@@ -30,25 +34,16 @@ if($num > 0 ){
     $post_arr['data'] =  array();
     while($row = $result->fetch(PDO::FETCH_ASSOC))
     {
-        extract($row);
+        
             $post_item = array(
-            'profileid'=>$profileid,
-            'username' => $username,
-            'password' => $password,
-            'email' => $email,
-            'phone' => $phone,
-            'address1'=>$address1,
-            'address2'=>$address2,
-            'location'=>$location,
-            'sublocality'=>$sublocality,
-            'landmark'=>$landmark,
-            'city'=>$city,
-            'district'=>$district,
-            'state'=>$state
+            'idservices'=>$row["idservices"],
+            'servicename' =>$row["servicename"],
+            'categoryid' =>$row["categoryid"],
+            'created'=>$row["created"]
         );
         array_push($post_arr['data'], $post_item);
     }
-
+   
     //Json output
 
     echo json_encode($post_arr);

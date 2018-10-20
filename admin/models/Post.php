@@ -5,10 +5,11 @@ class Post {
     //DB 
 
     public $conn;
+    public $id;
     private $table = 'profiles';
 
     //post properties
-
+   
     public $idprofiles;
     public $type;
     public $username;
@@ -22,6 +23,9 @@ class Post {
     public $createdby;
     public $updated;
     public $updatedby;
+    public $currentpassword;
+    public $newpassword;
+    public $retypenewpassword;
     private $table1 = 'profile_address';
     public $idprofile_address;
     public $profileid;
@@ -39,6 +43,52 @@ class Post {
     public $lastname;
     public $gender;
     public $age;
+    private $table3 = 'worker_categories';
+    public $category_id;
+    public $idworker_category;
+    public $category_created;
+    public $categoryid;
+    private $table4 = 'worker_locations';
+    public $idworker_location;
+    public $placeid; 
+    private $table5 = 'worker_services';
+    public $idprofile;
+    public $idworkservice;
+    public $serviceid; 
+    //public $servicename;
+    public $adminusername;
+    private $table6 = 'categories';
+    public $idcategory;
+    public $categoryname;
+    public $applicationid="123456";
+    public $updatedcategory;
+    private $table7 = 'services';
+    public $idservices;
+    public $servicename;
+    public $createdservice;
+    public $catid;
+    public $table8 = 'service_requests';
+    public $idservice_request;
+    public $userid;
+    public $service;
+    public $service_location;
+    public $payment_status;
+    public $amount;
+    public $servicedate;
+    //public $created;
+    public $usermessage;
+    public $service_location_address;
+    
+    
+   
+    public $servicetime;
+   
+   
+    
+   
+
+
+    
    
    
 
@@ -52,83 +102,6 @@ class Post {
 
 
     //Get posts
-
-    public function read(){
-        //Create query
-        $query = 'SELECT 
-                    c.name as category_name,
-                    p.idpost,
-                    p.category_id,
-                    p.title,
-                    p.body,
-                    p.author,
-                    p.created_at
-                FROM 
-                    '. $this->table .' p
-                LEFT  JOIN
-                    categories c ON p.category_id = c.id 
-                ORDER BY
-                p.created_at DESC';
-
-        // Prepare statement 
-
-        $stmt = $this->conn->prepare($query);
-        
-        //Execute query
-
-        $stmt->execute();
-        
-        return $stmt;
-    }
-
-    public function read_single(){
-        //Create query
-        $query = 'SELECT 
-                    c.name as category_name,
-                    p.idpost,
-                    p.category_id,
-                    p.title,
-                    p.body,
-                    p.author,
-                    p.created_at
-                FROM 
-                    '. $this->table .' p
-                LEFT  JOIN
-                    categories c ON p.category_id = c.id 
-                WHERE 
-                    p.idpost  = ?
-                LIMIT 0, 1';
-
-        // Prepare statement 
-
-        $stmt = $this->conn->prepare($query);
-
-        //Bind ID 
-        
-        $stmt->bindParam(4, $this->idpost);
-
-        //Execute query
-        $stmt->execute();
-        
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-        error_log("row => " . json_encode($row));
-        // Set properties
-
-        if($row){
-            $this->title = $row['title'];
-            $this->body = $row['body'];
-            $this->author = $row['author'];
-            $this->category_id = $row['category_id'];
-        }
-        else{
-            return false;
-        }
-
-       
-    }
-
 
     public function create(){
         //Create query
@@ -248,7 +221,6 @@ class Post {
     {
         $this->idprofile_detail = $idprofile_detail;
         $this->profileid = $lastid; 
-       
         $query2 = 'INSERT INTO ' . $this->table2 . '
         SET 
         idprofile_detail = :idprofile_detail,
@@ -266,16 +238,18 @@ class Post {
         $this->firstname = htmlspecialchars(strip_tags($this->firstname));
         $this->lastname = htmlspecialchars(strip_tags($this->lastname));
         $this->gender = htmlspecialchars(strip_tags($this->gender));
-        $this->created = htmlspecialchars(strip_tags($this->created));
         $this->age = htmlspecialchars(strip_tags($this->age));
+        $this->created = htmlspecialchars(strip_tags($this->created));
+        
 
         $stmt->bindParam(':idprofile_detail', $this->idprofile_detail);
         $stmt->bindParam(':profileid', $this->profileid);
         $stmt->bindParam(':firstname', $this->firstname);
         $stmt->bindParam(':lastname', $this->lastname);
         $stmt->bindParam(':gender', $this->gender);
-        $stmt->bindParam(':created', $this->created);
         $stmt->bindParam(':age', $this->age);
+        $stmt->bindParam(':created', $this->created);
+        
         
 
         
@@ -289,44 +263,132 @@ class Post {
 
        
     }
-    //Update post
-    public function update(){
-        //Update query
 
-        $query = 'UPDATE ' . $this->table . '
+    public function addworkercategory($lastid,$idworker_category)
+    {
+        $this->idworker_category = $idworker_category;
+        $this->profileid = $lastid; 
+        
+
+        $query4 = 'INSERT INTO ' . $this->table3 . '
         SET 
-        title = :title,
-        body = :body,
-        author = :author,
-        category_id = :category_id 
-        WHERE 
-        idpost = :idpost';
+        idworker_category =:idworker_category,
+        profileid = :profileid,
+        categoryid = :categoryid';
 
-        //Prepare statement
+        $stmt = $this->conn->prepare($query4);
+
+        $this->idworker_category = htmlspecialchars(strip_tags($idworker_category));
+        $this->profileid = htmlspecialchars(strip_tags($this->profileid));
+        $this->categoryid = htmlspecialchars(strip_tags($this->categoryid));
+        
+
+        $stmt->bindParam(':idworker_category', $this->idworker_category);
+        $stmt->bindParam(':profileid', $this->profileid);
+        $stmt->bindParam(':categoryid', $this->categoryid);
+        
+        if($stmt->execute()){
+           
+            return true;
+        }
+
+
+    }
+
+    public function addworkerlocations($lastid,$idworker_location)
+    {
+        $this->profileid = $lastid;
+        $this->idworker_location = $idworker_location; 
+        $query4 = 'INSERT INTO ' . $this->table4 . '
+        SET 
+        idworker_location =:idworker_location,
+        profileid = :profileid,
+        placeid = :placeid';
+
+        $stmt = $this->conn->prepare($query4);
+
+        $this->idworker_location = htmlspecialchars(strip_tags($idworker_location));
+        $this->profileid = htmlspecialchars(strip_tags($this->profileid));
+        $this->placeid = htmlspecialchars(strip_tags($this->placeid));
+        
+
+        $stmt->bindParam(':idworker_location', $this->idworker_category);
+        $stmt->bindParam(':profileid', $this->profileid);
+        $stmt->bindParam(':placeid', $this->placeid);
+        
+        if($stmt->execute()){
+           
+            return true;
+        }
+        
+    }
+
+    public function addworkerservices($lastid,$idworker_services)
+    {
+        $this->idprofile = $lastid;
+        $this->idworkservice = $idworker_services; 
+        // echo $this->idprofile;
+        // echo $this->idworkservice;
+        // exit();
+
+
+        $query5 = 'INSERT INTO ' . $this->table5 . '
+        SET 
+        idworkservice =:idworkservice,
+        idprofile = :idprofile,
+        categoryid = :categoryid,
+        serviceid = :serviceid,
+        servicename = :servicename';
+
+        $stmt = $this->conn->prepare($query5);
+        
+        $this->idworkservice = htmlspecialchars(strip_tags($this->idworkservice));
+        $this->idprofile = htmlspecialchars(strip_tags($this->idprofile));
+        $this->categoryid = htmlspecialchars(strip_tags($this->categoryid));
+        $this->serviceid = htmlspecialchars(strip_tags($this->serviceid));
+        $this->servicename = htmlspecialchars(strip_tags($this->servicename));
+
+        //$this->categoryid = htmlspecialchars(strip_tags($this->categoryid));
+        //$this->serviceid = htmlspecialchars(strip_tags($this->serviceid));
+
+        
+        $stmt->bindParam(':idworkservice', $this->idworkservice);
+        $stmt->bindParam(':idprofile', $this->idprofile);
+        $stmt->bindParam(':categoryid', $this->categoryid);
+        $stmt->bindParam(':serviceid', $this->serviceid);
+        $stmt->bindParam(':servicename', $this->servicename);
+        //$stmt->bindParam(':categoryid', $this->categoryid);
+        //$stmt->bindParam(':serviceid', $this->serviceid);
+
+        
+        if($stmt->execute()){
+           
+            return true;
+        }
+
+
+
+    }
+
+    public function delete(){
+        //delete query
+
+        $query = 'DELETE FROM ' . $this->table . ' WHERE idprofiles = :idprofiles';
+
+        //prepare statement
 
         $stmt = $this->conn->prepare($query);
 
         //clean data
+        $this->idprofiles = htmlspecialchars(strip_tags($this->idprofiles));
 
-        $this->title = htmlspecialchars(strip_tags($this->title));
-        $this->body = htmlspecialchars(strip_tags($this->body));
-        $this->author = htmlspecialchars(strip_tags($this->author));
-        $this->category_id = htmlspecialchars(strip_tags($this->category_id));
-        $this->idpost = htmlspecialchars(strip_tags($this->idpost));
+        //Bind Data
+        $stmt->bindParam(':idprofiles', $this->idprofiles);
 
 
-        //Bind data
+         //Execute query
 
-
-        $stmt->bindParam(':title', $this->title);
-        $stmt->bindParam(':body', $this->body);
-        $stmt->bindParam(':author', $this->author);
-        $stmt->bindParam(':category_id', $this->category_id);
-        $stmt->bindParam(':idpost', $this->idpost);
-
-        //Execute query
-
-        if($stmt->execute()){
+         if($stmt->execute()){
             return true;
         }
         echo 'Connection  Error' . $e->getMessage();
@@ -336,7 +398,191 @@ class Post {
 
 
         return false;
+
+
     }
+
+
+
+    //Update post
+    
+        //Update query
+        public function update(){
+            //Update query
+             
+            $query = 'UPDATE ' . $this->table . '
+            SET 
+            username = :username,
+            password = :password,
+            email = :email,
+            phone = :phone,
+            updated = :updated 
+            WHERE 
+            idprofiles = :idprofiles';
+    
+            //Prepare statement
+            
+            $stmt = $this->conn->prepare($query);
+    
+            //clean data
+    
+            $this->username = htmlspecialchars(strip_tags($this->username));
+            $this->password = htmlspecialchars(strip_tags($this->password));
+            $this->email = htmlspecialchars(strip_tags($this->email));
+            $this->phone = htmlspecialchars(strip_tags($this->phone));
+            $this->idprofiles = htmlspecialchars(strip_tags($this->idprofiles));
+            $this->updated = htmlspecialchars(strip_tags($this->updated));
+    
+    
+            //Bind data
+    
+    
+            $stmt->bindParam(':username', $this->username);
+            $stmt->bindParam(':password', $this->password);
+            $stmt->bindParam(':email', $this->email);
+            $stmt->bindParam(':phone', $this->phone);
+            $stmt->bindParam(':idprofiles', $this->idprofiles);
+            $stmt->bindParam(':updated', $this->updated);
+    
+            //Execute query
+    
+            if($stmt->execute()){
+              return $this->idprofiles;
+            }
+            echo 'Connection  Error' . $e->getMessage();
+            //print error message if it has errors
+    
+            printf("Error: %s.\n", $stmt->error);
+    
+    
+            return false;
+        }
+        public function updateaddress($result)
+        {
+            $this->profileid = $result;
+            $updatequery = 'UPDATE ' . $this->table1. '
+            SET 
+            address1 = :address1,
+            address2 = :address2,
+            location = :location,
+            sublocality = :sublocality,
+            landmark = :landmark,
+            city = :city,
+            district = :district,
+            state = :state,
+            updated = :updated
+            WHERE 
+            profileid = :profileid';
+    
+            //Prepare statement
+    
+            $stmt = $this->conn->prepare($updatequery);
+    
+            //clean data
+    
+            $this->address1 = htmlspecialchars(strip_tags($this->address1));
+            $this->address2 = htmlspecialchars(strip_tags($this->address2));
+            $this->location = htmlspecialchars(strip_tags($this->location));
+            $this->sublocality = htmlspecialchars(strip_tags($this->sublocality));
+            $this->landmark = htmlspecialchars(strip_tags($this->landmark));
+            $this->city = htmlspecialchars(strip_tags($this->city));
+            $this->district = htmlspecialchars(strip_tags($this->district));
+            $this->state = htmlspecialchars(strip_tags($this->state));
+            $this->profileid = htmlspecialchars(strip_tags($this->profileid));
+            $this->updated = htmlspecialchars(strip_tags($this->updated));
+
+    
+    
+            //Bind data
+    
+    
+            $stmt->bindParam(':address1', $this->address1);
+            $stmt->bindParam(':address2', $this->address2);
+            $stmt->bindParam(':location', $this->location);
+            $stmt->bindParam(':sublocality', $this->sublocality);
+            $stmt->bindParam(':landmark', $this->landmark);
+            $stmt->bindParam(':city', $this->city);
+            $stmt->bindParam(':district', $this->district);
+            $stmt->bindParam(':state', $this->state);
+            $stmt->bindParam(':profileid', $this->profileid);
+            $stmt->bindParam(':updated', $this->updated);
+    
+            //Execute query
+    
+            if($stmt->execute()){
+              return $this->profileid;
+                
+            }
+            echo 'Connection  Error' . $e->getMessage();
+            //print error message if it has errors
+    
+            printf("Error: %s.\n", $stmt->error);
+    
+    
+            return false;
+
+
+        }
+        public function updateprofile($idprofile)
+        {
+
+            $this->profileid = $idprofile;
+            $updatequery = 'UPDATE ' . $this->table2. '
+            SET 
+            firstname = :firstname,
+            lastname = :lastname,
+            gender = :gender,
+            age = :age,
+            updated = :updated
+            WHERE 
+            profileid = :profileid';
+    
+            //Prepare statement
+    
+            $stmt = $this->conn->prepare($updatequery);
+    
+            //clean data
+    
+            $this->firstname = htmlspecialchars(strip_tags($this->firstname));
+            $this->lastname = htmlspecialchars(strip_tags($this->lastname));
+            $this->gender = htmlspecialchars(strip_tags($this->gender));
+            $this->age = htmlspecialchars(strip_tags($this->age));
+            $this->updated = htmlspecialchars(strip_tags($this->updated));
+            $this->profileid = htmlspecialchars(strip_tags($this->profileid));
+           
+    
+    
+            //Bind data
+    
+    
+            $stmt->bindParam(':firstname', $this->firstname);
+            $stmt->bindParam(':lastname', $this->lastname);
+            $stmt->bindParam(':gender', $this->gender);
+            $stmt->bindParam(':age', $this->age);
+            $stmt->bindParam(':updated', $this->updated);
+            $stmt->bindParam(':profileid', $this->profileid);
+    
+            //Execute query
+    
+            if($stmt->execute()){
+
+              return  $stmt;
+                
+            }
+            echo 'Connection  Error' . $e->getMessage();
+            //print error message if it has errors
+    
+            printf("Error: %s.\n", $stmt->error);
+    
+    
+            return false;
+
+            
+
+
+        }
+    
+    
 
     public function addlastid($pid,$subname)
     {
@@ -360,37 +606,7 @@ class Post {
 
     //Delete Post
 
-    public function delete(){
-        //delete query
-
-        $query = 'DELETE FROM ' . $this->table . ' WHERE idpost = :idpost';
-
-        //prepare statement
-
-        $stmt = $this->conn->prepare($query);
-
-        //clean data
-        $this->idpost = htmlspecialchars(strip_tags($this->idpost));
-
-        //Bind Data
-        $stmt->bindParam(':idpost', $this->idpost);
-
-
-         //Execute query
-
-         if($stmt->execute()){
-            return true;
-        }
-        echo 'Connection  Error' . $e->getMessage();
-        //print error message if it has errors
-
-        printf("Error: %s.\n", $stmt->error);
-
-
-        return false;
-
-
-    }
+    
     public function check()
     {
         $query3 = "SELECT * FROM  $this->table WHERE username =:username";
@@ -414,12 +630,11 @@ class Post {
             }
         }
        
-
-
     }
     public function login()
     {
-        $query = 'SELECT * FROM ' . $this->table . ' WHERE username = :username and password=:password';
+        $this->type="A";
+        $query = 'SELECT * FROM ' . $this->table . ' WHERE username = :username and password=:password and type=:type';
 
         //prepare statement
 
@@ -428,10 +643,12 @@ class Post {
         //clean data
         $this->username = htmlspecialchars(strip_tags($this->username));
         $this->password = htmlspecialchars(strip_tags($this->password));
+        $this->type = htmlspecialchars(strip_tags($this->type));
 
         //Bind Data
         $stmt->bindParam(':username', $this->username);
         $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':type', $this->type);
 
 
          //Execute query
@@ -455,24 +672,632 @@ class Post {
 
         return false;
        
-    
     }
     public function read(){
         //Create query
-        $query = 'SELECT 
-               * from posts';
+        $query4 = 'SELECT username,password, 
+    email,
+        phone,address1,address2,location,sublocality,landmark,city,district,state,profileid
+    FROM 
+        profiles
+    INNER  JOIN
+        profile_address  ON profiles.idprofiles = profile_address.profileid 
+    ORDER BY email DESC';
 
         // Prepare statement 
 
-        $stmt = $this->conn->prepare($query);
-        
-        //Execute query
+        $stmt = $this->conn->prepare($query4);
 
+        //Bind ID 
+        
+        // $stmt->bindParam(':idprofiles', $this->idprofiles);
+        // $stmt->bindParam(':username', $this->username);
+        // $stmt->bindParam(':email', $this->email);
+        // $stmt->bindParam(':phone', $this->phone);
+        // $stmt->bindParam(':idprofile_address', $this->idprofile_address);
+        // $stmt->bindParam(':profileid', $this->profileid);
+        // $stmt->bindParam(':address1', $this->address1);
+
+
+        //Execute query
+        $stmt->execute();
+        
+        return $stmt;
+        error_log("row => " . json_encode($row));
+        // Set properties
+
+        if($row){
+            $this->title = $row['title'];
+            $this->body = $row['body'];
+            $this->author = $row['author'];
+            $this->category_id = $row['category_id'];
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function read_single()
+    {
+        //Create query
+              
+            // query to read single record
+            $readsinglequery = 'SELECT *
+            FROM 
+                profiles
+            INNER  JOIN
+                profile_address  ON profiles.idprofiles = profile_address.profileid INNER JOIN profile_details on profiles.idprofiles =profile_details.profileid
+                WHERE idprofiles = "'.$this->id.'" ';
+         
+         $stmt = $this->conn->prepare($readsinglequery);
+            // prepare query statement
+            $stmt->bindParam(':profileid', $this->id);
+           
+            // bind id of product to be updated
+         
+            // execute query
+           if($stmt->execute())
+           {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            // set values to object properties
+            $this->idprofiles = $row['idprofiles'];
+            $this->username = $row['username'];
+            $this->password = $row['password'];
+            $this->firstname = $row['firstname'];
+            $this->lastname = $row['lastname'];
+            $this->age = $row['age'];
+            $this->email = $row['email'];
+            $this->address1 = $row['address1'];
+            $this->address2 = $row['address2'];
+            $this->phone = $row['phone'];
+            $this->gender = $row['gender'];
+            $this->location = $row['location'];
+            $this->sublocality = $row['sublocality'];
+            $this->landmark = $row['landmark'];
+            $this->city = $row['city'];
+            $this->district = $row['district'];
+            $this->state = $row['state'];
+            $this->created  = $row["created"];
+            $this->status  = $row["status"];
+            return true;
+           }
+            
+        
+    }
+
+    public function searchuser()
+    {
+        $username = "$this->username%";
+        
+        $readsinglequery = 'SELECT *
+            FROM 
+                profiles
+            INNER  JOIN
+                profile_address  ON profiles.idprofiles = profile_address.profileid
+                INNER JOIN profile_details ON profile_address.profileid = profile_details.profileid
+                INNER JOIN worker_categories ON  profile_details.profileid = worker_categories.profileid
+                WHERE username LIKE "'.$username.'"';
+         
+            $stmt = $this->conn->prepare($readsinglequery);
+            // prepare query statement
+            $stmt->bindParam(':username', $this->username);
+           
+            // bind id of product to be updated
+         
+            // execute query
+           if($stmt->execute())
+           {
+            return $stmt;
+           }
+    }
+
+    public function checkcurrentpassword()
+    {
+        $this->type = "A";
+        $checkquery = "SELECT * FROM  $this->table WHERE username =:username and password =:password and type=:type";
+     
+        // prepare query statement
+        $stmt = $this->conn->prepare($checkquery);
+     
+        // bind id of product to be updated
+        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':type', $this->type);
+        
+        if($stmt->execute())
+        {
+            $no = $stmt->rowCount();
+            if($no>0)
+            {
+                return $no;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+    }
+
+    public function changeadminpassword()
+    {
+       
+        if($this->newpassword=="$this->retypenewpassword")
+        {
+            $this->type = "A";
+            $this->password = $this->newpassword;
+            $updatepassword = 'UPDATE ' . $this->table . '
+            SET 
+            password = :password
+            WHERE 
+            username = :username and 
+            type = :type';
+        }
+        $stmt = $this->conn->prepare($updatepassword);
+                $stmt->bindParam(':username', $this->username);
+                $stmt->bindParam(':password', $this->password);
+                $stmt->bindParam(':type', $this->type);
+        if($stmt->execute())
+        {
+            return true;
+        }
+    }
+
+    public function addcategory()
+    { 
+        $insertcategory = 'INSERT INTO ' . $this->table6 . '
+        SET 
+        applicationid = :applicationid,
+        idcategory = :idcategory,
+        categoryname = :categoryname,
+        created = :created';
+        $stmt = $this->conn->prepare($insertcategory);
+         
+         
+        //clean data
+        $this->applicationid = htmlspecialchars(strip_tags($this->applicationid));
+        $this->idcategory = htmlspecialchars(strip_tags($this->idcategory));
+        $this->categoryname = htmlspecialchars(strip_tags($this->categoryname));
+        $this->created = htmlspecialchars(strip_tags($this->created));
+
+        $stmt->bindParam(':applicationid', $this->applicationid);
+        $stmt->bindParam(':idcategory', $this->idcategory);
+        $stmt->bindParam(':categoryname', $this->categoryname);
+        $stmt->bindParam(':created', $this->created);
+
+        if($stmt->execute()){
+           
+            return $this->idcategory;
+        }
+        echo 'Connection  Error' . $e->getMessage();
+        //print error message if it has errors
+
+        printf("Error: %s.\n", $stmt->error);
+
+
+        return false;
+
+    }
+    public function readcategory()
+    {
+       
+
+            //Create query
+            $readcategory = 'SELECT * FROM categories';
+    
+            // Prepare statement 
+    
+            $stmt = $this->conn->prepare($readcategory);
+    
+            //Bind ID 
+            
+            // $stmt->bindParam(':idprofiles', $this->idprofiles);
+            // $stmt->bindParam(':username', $this->username);
+            // $stmt->bindParam(':email', $this->email);
+            // $stmt->bindParam(':phone', $this->phone);
+            // $stmt->bindParam(':idprofile_address', $this->idprofile_address);
+            // $stmt->bindParam(':profileid', $this->profileid);
+            // $stmt->bindParam(':address1', $this->address1);
+    
+    
+            //Execute query
+           if($stmt->execute())
+            {
+            return $stmt;
+            }
+            error_log("row => " . json_encode($row));
+            // Set properties
+    
+            // if($row){
+            //     $this->title = $row['title'];
+            //     $this->body = $row['body'];
+            //     $this->author = $row['author'];
+            //     $this->category_id = $row['category_id'];
+            // }
+            // else{
+            //     return false;
+            // }
+    }
+    
+    //Create query
+    // query to read single record
+    public function read_singlecategory()
+    {
+        
+            $readsinglequery = 'SELECT *
+            FROM 
+            categories
+            WHERE idcategory = "'.$this->id.'" ';
+            $stmt = $this->conn->prepare($readsinglequery);
+            // prepare query statement
+            $stmt->bindParam(':profileid', $this->id);
+           
+            // bind id of product to be updated
+         
+            // execute query
+           if($stmt->execute())
+           {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            // set values to object properties
+            $this->idcategory = $row['idcategory'];
+            $this->categoryname = $row['categoryname'];
+            return true;
+           }
+    }
+    public function updatecategory()
+    {
+            $this->updatedcategory = date('Y-m-d H:i:s');
+            $this->updated = $this->updatedcategory;
+            $updatecategory = 'UPDATE ' . $this->table6. '
+            SET 
+            categoryname = :categoryname,
+            updated = :updated 
+            WHERE 
+            idcategory = :idcategory';
+    
+            //Prepare statement
+    
+            $stmt = $this->conn->prepare($updatecategory);
+    
+            //clean data
+    
+            $this->categoryname = htmlspecialchars(strip_tags($this->categoryname));
+            $this->idcategory = htmlspecialchars(strip_tags($this->idcategory));
+            $this->updated = htmlspecialchars(strip_tags($this->updated));
+
+           
+    
+    
+            //Bind data
+    
+    
+            $stmt->bindParam(':categoryname', $this->categoryname);
+            $stmt->bindParam(':idcategory', $this->idcategory);
+            $stmt->bindParam(':updated', $this->updated);
+    
+            //Execute query
+    
+            if($stmt->execute()){
+
+              return  $stmt;
+                
+            }
+            echo 'Connection  Error' . $e->getMessage();
+            //print error message if it has errors
+    
+            printf("Error: %s.\n", $stmt->error);
+    
+    
+            return false;
+
+    }
+    public function deletecategory(){
+        //delete query
+        
+        $deletecategory = 'DELETE FROM ' . $this->table6 . ' WHERE idcategory = :idcategory';
+
+        //prepare statement
+
+        $stmt = $this->conn->prepare($deletecategory);
+
+        //clean data
+        $this->idcategory = htmlspecialchars(strip_tags($this->idcategory));
+
+        //Bind Data
+        $stmt->bindParam(':idcategory', $this->idcategory);
+
+
+         //Execute query
+
+         if($stmt->execute()){
+            return true;
+        }
+        echo 'Connection  Error' . $e->getMessage();
+        //print error message if it has errors
+
+        printf("Error: %s.\n", $stmt->error);
+
+
+        return false;
+
+
+    }
+    public function addservices()
+    {
+        $categoryid = $this->catid;
+        $insertservice = 'INSERT INTO ' . $this->table7 . '
+        SET 
+        idservices = :idservices,
+        servicename = :servicename,
+        categoryid = :categoryid,
+        created = :created';
+        $stmt = $this->conn->prepare($insertservice);
+         
+         
+        //clean data
+        $this->idservices = htmlspecialchars(strip_tags($this->idservices));
+        $this->servicename = htmlspecialchars(strip_tags($this->servicename));
+        $this->categoryid = htmlspecialchars(strip_tags($this->categoryid));
+        $this->created = htmlspecialchars(strip_tags($this->created));
+
+        $stmt->bindParam(':idservices', $this->idservices);
+        $stmt->bindParam(':servicename', $this->servicename);
+        $stmt->bindParam(':categoryid', $this->categoryid);
+        $stmt->bindParam(':created', $this->created);
+
+        if($stmt->execute()){
+           
+            return true;
+        }
+        echo 'Connection  Error' . $e->getMessage();
+        //print error message if it has errors
+
+        printf("Error: %s.\n", $stmt->error);
+
+
+        return false;
+
+    }
+    public function getservices()
+    {
+       
+        $getservices = 'SELECT idservices,servicename,categoryid,created from ' . $this->table7 . '  where categoryid = "'.$this->categoryid.'"';
+
+        // Prepare statement 
+
+        $stmt = $this->conn->prepare($getservices);
+        $this->categoryid = htmlspecialchars(strip_tags($this->categoryid));
+
+        $stmt->bindParam(':categoryid', $this->categoryid);
+         
+        
         $stmt->execute();
         
         return $stmt;
     }
 
+    public function read_singleservice()
+    {
+            
+            $readsingleservice = 'SELECT *
+            FROM 
+            services
+            WHERE idservices = "'.$this->idservices.'" ';
+            $stmt = $this->conn->prepare($readsingleservice);
+            // prepare query statement
+            $stmt->bindParam(':idservices', $this->idservices);
+           
+            // bind id of product to be updated
+         
+            // execute query
+           if($stmt->execute())
+           {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            // set values to object properties
+            $this->idservices = $row['idservices'];
+            $this->servicename = $row['servicename'];
+            return true;
+           }
+
+    }
+    public function updateservices()
+    {
+        $this->updated = date('Y-m-d H:i:s');
+        
+            // $this->updated = $this->updateservices;
+            $updateservices = 'UPDATE ' . $this->table7. '
+            SET 
+            servicename = :servicename,
+            updated = :updated 
+            WHERE 
+            idservices = :idservices';
+    
+            //Prepare statement
+    
+            $stmt = $this->conn->prepare($updateservices);
+    
+            //clean data
+            $this->idservices = htmlspecialchars(strip_tags($this->idservices));
+            $this->servicename = htmlspecialchars(strip_tags($this->servicename));
+            $this->updated = htmlspecialchars(strip_tags($this->updated));
+
+           
+    
+    
+            //Bind data
+    
+            $stmt->bindParam(':idservices', $this->idservices);
+            $stmt->bindParam(':servicename', $this->servicename);
+            $stmt->bindParam(':updated', $this->updated);
+    
+            //Execute query
+             
+            if($stmt->execute()){
+
+              return true;
+
+            }
+            echo 'Connection  Error' . $e->getMessage();
+            //print error message if it has errors
+    
+            printf("Error: %s.\n", $stmt->error);
+            return false;
+    }
+
+    public function deleteservices(){
+        //delete query
+        
+        $deleteservices = 'DELETE FROM ' . $this->table7 . ' WHERE idservices = :idservices';
+
+        //prepare statement
+
+        $stmt = $this->conn->prepare($deleteservices);
+
+        //clean data
+        $this->idservices = htmlspecialchars(strip_tags($this->idservices));
+
+        //Bind Data
+        $stmt->bindParam(':idservices', $this->idservices);
+
+
+         //Execute query
+
+         if($stmt->execute()){
+            return true;
+        }
+        echo 'Connection  Error' . $e->getMessage();
+        //print error message if it has errors
+
+        printf("Error: %s.\n", $stmt->error);
+
+
+        return false;
+
+
+    }
+    public function checkservices()
+    {
+        $checkservice = 'SELECT *
+        FROM 
+        services
+        WHERE servicename = "'.$this->servicename.'" ';
+        $stmt = $this->conn->prepare($checkservice);
+        // prepare query statement
+        $stmt->bindParam(':servicename', $this->servicename);
+       
+        // bind id of product to be updated
+        // execute query
+       if($stmt->execute())
+       {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+       
+        // set values to object properties
+        $this->idservices = $row['idservices'];
+        $this->servicename = $row['servicename'];
+        return $this->servicename;
+       }
+
+    }
+    public function addservicerequest()
+    {
+        
+        
+        $servicequery = 'INSERT INTO ' . $this->table8. '
+        SET 
+        idservice_request = :idservice_request,
+        userid = :userid,
+        service = :service,
+        categoryid = :categoryid,
+        usermessage = :usermessage,
+        service_location = :service_location,
+        payment_status = :payment_status,
+        amount = :amount,
+        servicedate = :servicedate,
+        created = :created,
+        createdby = :createdby';
+
+
+        //Prepare statement
+
+        $stmt = $this->conn->prepare($servicequery);
+
+        //clean data
+
+        $this->idservice_request = htmlspecialchars(strip_tags($this->idservice_request));
+        $this->userid = htmlspecialchars(strip_tags($this->userid));
+        $this->service = htmlspecialchars(strip_tags($this->service));
+        $this->categoryid = htmlspecialchars(strip_tags($this->categoryid));
+        $this->usermessage = htmlspecialchars(strip_tags($this->usermessage));
+        $this->service_location = htmlspecialchars(strip_tags($this->service_location));
+        $this->payment_status = htmlspecialchars(strip_tags($this->payment_status));
+        $this->amount = htmlspecialchars(strip_tags($this->amount));
+        $this->servicedate = htmlspecialchars(strip_tags($this->servicedate));
+        $this->created = htmlspecialchars(strip_tags($this->created));
+        $this->createdby = htmlspecialchars(strip_tags($this->createdby));
+
+        // $this->service_location_address = htmlspecialchars(strip_tags($this->service_location_address));
+        // $this->payment_type = htmlspecialchars(strip_tags($this->payment_type));
+        // $this->amount = htmlspecialchars(strip_tags($this->amount));
+        // $this->servicedate = htmlspecialchars(strip_tags($this->servicedate));
+        // $this->servicetime = htmlspecialchars(strip_tags($this->servicetime));
+        // $this->created = htmlspecialchars(strip_tags($this->created));
+
+        
+
+
+        //Bind data
+
+
+        $stmt->bindParam(':idservice_request', $this->idservice_request);
+        $stmt->bindParam(':userid', $this->userid);
+        $stmt->bindParam(':service', $this->service);
+        $stmt->bindParam(':categoryid', $this->categoryid);
+        $stmt->bindParam(':usermessage', $this->usermessage);
+        $stmt->bindParam(':service_location', $this->service_location);
+        $stmt->bindParam(':payment_status',$this->payment_status);
+        $stmt->bindParam(':amount', $this->amount);
+        $stmt->bindParam(':servicedate', $this->servicedate);
+        $stmt->bindParam(':created', $this->created);
+        $stmt->bindParam(':createdby', $this->createdby);
+        // $stmt->bindParam(':usermessage', $this->usermessage);
+        // $stmt->bindParam(':service_location', $this->service_location);
+        // $stmt->bindParam(':service_location_address', $this->service_location_address);
+        //$stmt->bindParam(':payment_type',$this->payment_type);
+        // $stmt->bindParam(':amount', $this->amount);
+        // $stmt->bindParam(':servicedate', $this->servicedate);
+        // $stmt->bindParam(':servicetime', $this->servicetime);
+        // $stmt->bindParam(':created', $this->created);
+       
+
+       
+
+        //Execute query
+
+        if($stmt->execute())
+        {
+           
+            return true;
+        }
+        echo 'Connection  Error' . $e->getMessage();
+        //print error message if it has errors
+
+        printf("Error: %s.\n", $stmt->error);
+
+
+        return false;
+
+    }
+    public function readrequest()
+    {
+        $readservicerequest = "select * from service_requests INNER JOIN profiles on service_requests.userid = profiles.idprofiles";
+        $stmt = $this->conn->prepare( $readservicerequest);
+        if($stmt->execute())
+            {
+            return $stmt;
+            }
+            error_log("row => " . json_encode($row));
+       
+    }
 
 }
 

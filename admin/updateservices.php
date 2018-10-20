@@ -4,7 +4,7 @@
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: PUT');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Methods, Authorization, X-Requested-With');
 
 include_once './config/Database.php';
@@ -22,27 +22,26 @@ $post = new Post($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
+$post->servicename = $data->servicename;
+$post->idservices = $data->idservices;
 
-$post->username = $data->username;
-$post->password = md5($data->password);
-//echo json_encode(array('username' => '$post->username',"password"=>$post->password));
-// //return true;
 
-// Create post
-
-if($qu=$post->login()){
-   
-    if($qu=="1")
+if($checkservicename = $post->checkservices())
+{
+    if($checkservicename=="$post->servicename")
     {
-        echo json_encode(array('message' => 'success',"username"=>$post->username));
-        return false;
-    }
-    else
-    {
-        echo json_encode(array('message' => '$qu'));
+        echo json_encode(array('message' =>'Existing Servicename'));
         return true;
     }
-}else{
-    echo json_encode(array('message' => 'Failed'));
-    return true;
+    
 }
+else
+    {
+        $update = $post->updateservices();
+        echo json_encode(array('message' =>'Updated Successfully'));
+        return true;
+    }
+
+
+?>
+

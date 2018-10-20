@@ -142,7 +142,7 @@
                             </span>
                         </button>
                         <div class="collapse navbar-collapse justify-content-end">
-                            <form class="navbar-form">
+                            <form class="navbar-form" method= "post" action ="adduser.php">
                                 <div class="input-group no-border">
                                     <input class="form-control" placeholder="Search..." type="text" value="">
                                         <button class="btn btn-white btn-round btn-just-icon" type="submit">
@@ -173,7 +173,7 @@
                                         </p>
                                     </div>
                                     <div class="card-body">
-                                        <form id="add_user">
+                                        <form id="add_user" method= "post" action ="curlinsert.php">
 
                                             <div class ="row">
 
@@ -373,7 +373,19 @@
                                             </div>
                                            
                                             <div class="row">
-                                                    <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="bmd-label-floating">
+                                                                Type Of User
+                                                            </label>
+                                                            <select class="form-control" type="text" name="type" id="type">
+                                                            <option value="A">Admin</option>
+                                                            <option value="W">Worker</option>
+                                                            <option value="U">User</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">
                                                                 Latitude(optional)
@@ -382,7 +394,7 @@
                                                             </input>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating">
                                                                Longitude(optional)
@@ -406,7 +418,7 @@
                         </div>
         
                     </div>
-
+                    
                     <footer class="footer">
                 <div class="container-fluid">
                     <div class="copyright">
@@ -449,7 +461,14 @@
 </script>
 
 
+
         </div>
     </body>
+    <!-- <?php
+    // if(isset($_POST["submit"]))
+    // {
+    //         echo "welcome";
+    // }
+    ?> -->
 </html>     
 

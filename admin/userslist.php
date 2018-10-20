@@ -1,445 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <link href="../assets/img/apple-icon.png" rel="apple-touch-icon" sizes="76x76">
-            <link href="../assets/img/favicon.png" rel="icon" type="image/png">
-                <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
-                <title>
-                    Hifive
-                </title>
-                <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" name="viewport"/>
-                <!--     Fonts and icons     -->
-                <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css"/>
-                <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-                <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
-                    <!-- CSS Files -->
-                    <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet"/>
-                    
-            </link>
-        </link>
-    </head>
-    <body class="">
-        <div class="wrapper ">
-            <div class="sidebar" data-background-color="white" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
-              
-                <div class="logo">
-                    <a class="simple-text logo-normal" href="#">
-                        Hifive
-                    </a>
-                </div>
-                <div class="sidebar-wrapper">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="dashboard.html">
-                                <i class="material-icons">
-                                    dashboard
-                                </i>
-                                <p>
-                                    Dashboard
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="./userlist.html">
-                                <i class="material-icons">
-                                    person
-                                </i>
-                                <p>
-                                    Users
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a class="nav-link" href="./adduserfield.html">
-                                <i class="material-icons">
-                                    person
-                                </i>
-                                <p>
-                                    Add custom user field
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a class="nav-link" href="./workerlist.html">
-                                <i class="material-icons">
-                                    person
-                                </i>
-                                <p>
-                                    Workers
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a class="nav-link" href="./categories.html">
-                                <i class="material-icons">
-                                    supervised_user_circle
-                                </i>
-                                <p>
-                                    Categories
-                                </p>
-                            </a>
-                        </li>
-                        
-                        <li class="nav-item  ">
-                            <a class="nav-link" href="./services.html">
-                                <i class="material-icons">
-                                    work
-                                </i>
-                                <p>
-                                    Services
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="notifications.html">
-                                <i class="material-icons">
-                                    notification_important
-                                </i>
-                                <p>
-                                    Notifications
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="settings.html">
-                                <i class="material-icons">
-                                    settings
-                                </i>
-                                <p>
-                                    Settings
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="main-panel">
-                <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-                    <div class="container-fluid">
-                        <div class="navbar-wrapper">
-                            <a class="navbar-brand" href="#pablo">
-                                <!-- Table List -->
-                            </a>
-                        </div>
-                        <button aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-toggle="collapse" type="button">
-                            <span class="sr-only">
-                                Toggle navigation
-                            </span>
-                            <span class="navbar-toggler-icon icon-bar">
-                            </span>
-                            <span class="navbar-toggler-icon icon-bar">
-                            </span>
-                            <span class="navbar-toggler-icon icon-bar">
-                            </span>
-                        </button>
-                        <div class="collapse navbar-collapse justify-content-end">
-                            <form class="navbar-form">
-                                <div class="input-group no-border">
-                                    <input class="form-control" placeholder="Search..." type="text" value="">
-                                        <button class="btn btn-white btn-round btn-just-icon" type="submit">
-                                            <i class="material-icons">
-                                                search
-                                            </i>
-                                            <div class="ripple-container">
-                                            </div>
-                                        </button>
-                                    </input>
-                                </div>
-                            </form>
-                            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  
-                  
-                    Logout
-                  
-                </a>
-              </li>
-             </ul>
-                        </div>
-                    </div>
-                </nav>
-                <!-- End Navbar -->
-                <div class="content">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header card-header-primary">
-                                        <h4 class="card-title ">
-                                            Users
-                                        </h4>
-                                        <p class="card-category">
-                                            Here is a subtitle for this table
-                                        </p>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table" id="#mytable">
-                                                <thead class=" text-primary">
-                                                    <th>
-                                                        ID
-                                                    </th>
-                                                    <th>Username
-                                                      
-                                                          
-                                                          
-                                                        <a href="#">
-                                                            <i class="material-icons">
-                                                                keyboard_arrow_down
-                                                            </i>
-                                                        </a>
-                                                        
-                                                        <a href="#">
-                                                            <i class="material-icons">
-                                                                keyboard_arrow_up
-                                                            </i>
-                                                        </a>
-                                                        
-                                                    </th>
-                                                    
-                                                        
-
-                                                    
-                                                   <!--  <th><p>Username</p> <i class="fa fa-fw fa-sort"></i></th> -->
-
-                                                   <!--  <th>
-                                                        Firstname
-                                                    </th>
-                                                    <th>
-                                                        Lastname
-                                                    </th> -->
-                                                    <th>
-                                                        Email
-                                                    </th>
-                                                   <!--  <th>
-                                                        Password
-                                                    </th>
-                                                    <th>
-                                                        Age
-                                                    </th>
-                                                    <th>
-                                                        Gender
-                                                    </th> -->
-                                                    <th>
-                                                        Phone
-                                                    </th>
-                                                    <th>
-                                                        Address
-                                                    </th>
-                                                    <th>
-                                                        Location
-                                                    </th>
-                                                    <th>
-                                                        City
-                                                    </th>
-                                                    <th>
-                                                        State
-                                                    </th>
-                                                    <!-- <th>
-                                                        Active
-                                                    </th>
-                                                    <th>
-                                                        Created date
-                                                    </th> -->
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            1
-                                                        </td>
-                                                        <td>
-                                                            Rachel Green
-                                                        </td>
-                                                       
-                                                        <!-- <td>
-                                                            Rachel
-                                                        </td>
-                                                        <td>
-                                                            Green
-                                                        </td> -->
-                                                        <td>
-                                                            rachel@gmail.com
-                                                        </td>
-                                                        <!-- <td>
-                                                            ******
-                                                        </td>
-                                                        <td>
-                                                            25
-                                                        </td>
-                                                        <td>
-                                                            F
-                                                        </td> -->
-                                                        <td>
-                                                            9874563210
-                                                        </td>
-                                                        <td>
-                                                            xyz
-                                                        </td>
-                                                        <td>
-                                                            abc
-                                                        </td>
-                                                        <td>
-                                                            Thrissur
-                                                        </td>
-                                                        <td>
-                                                            Kerala
-                                                        </td>
-                                                        <!-- <td>
-                                                            1
-                                                        </td>
-                                                        <td>
-                                                            05-05-2018
-                                                        </td> -->
-                                                        <td class="text-right">
-                                                          
-                                                            <a href="viewuser.html">
-                                                                <button class="btn btn-sm btn-info" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                        person
-                                                                    </i>
-                                                                </button>
-                                                            </a>
-                                                            <a href="edituser.html">
-                                                                <button class="btn btn-sm btn-success" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                        edit
-                                                                    </i>
-                                                                </button>
-                                                            </a>
-                                                            <a href="#">
-                                                                <button class="btn btn-sm btn-danger" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                        close
-                                                                    </i>
-                                                                </button>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            2
-                                                        </td>
-                                                        <td>
-                                                            Rachel Green
-                                                        </td>
-                                                       
-                                                       <!--  <td>
-                                                            Rachel
-                                                        </td>
-                                                        <td>
-                                                            Green
-                                                        </td> -->
-                                                        <td>
-                                                            rachel@gmail.com
-                                                        </td>
-                                                        <!-- <td>
-                                                            ******
-                                                        </td>
-                                                        <td>
-                                                            25
-                                                        </td>
-                                                        <td>
-                                                            F
-                                                        </td> -->
-                                                        <td>
-                                                            9874563210
-                                                        </td>
-                                                        <td>
-                                                            xyz
-                                                        </td>
-                                                        <td>
-                                                            abc
-                                                        </td>
-                                                        <td>
-                                                            Thrissur
-                                                        </td>
-                                                        <td>
-                                                            Kerala
-                                                        </td>
-                                                       <!--  <td>
-                                                            1
-                                                        </td>
-                                                        <td>
-                                                            05-05-2018
-                                                        </td> -->
-                                                        <td class="text-right">
-                                                          
-                                                            <a href="viewuser.html">
-                                                                <button class="btn btn-info btn-sm" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                        person
-                                                                    </i>
-                                                                </button>
-                                                            </a>
-                                                            <a href="edituser.html">
-                                                                <button class="btn btn-success btn-sm" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                        edit
-                                                                    </i>
-                                                                </button>
-                                                            </a>
-                                                            <button class="btn btn-danger btn-sm" rel="tooltip" type="button">
-                                                                <i class="material-icons">
-                                                                    close
-                                                                </i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <a href="adduser.html">
-                                                <button class="btn btn-sm btn-success" rel="tooltip" type="button">
-                                                    <i class="material-icons">
-                                                        person_add
-                                                    </i>
-                                                 </button>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <footer class="footer">
-                            <div class="container-fluid">
-                                <div class="copyright">
-                                    ©
-                                    <script>
-                                        document.write(new Date().getFullYear())
-                                    </script>
-                                    <!-- , made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web. -->
-                                </div>
-                            </div>
-                        </footer>
-                    </div>
-                </div>
-                <!--   Core JS Files   -->
-                <script src="../assets/js/core/jquery.min.js" type="text/javascript">
-                </script>
-                <script src="../assets/js/core/popper.min.js" type="text/javascript">
-                </script>
-                <script src="../assets/js/core/bootstrap-material-design.min.js" type="text/javascript">
-                </script>
-                <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js">
-                </script>
-                <!--  Google Maps Plugin    -->
-                <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE">
-                </script>
-                <!-- Chartist JS -->
-                <script src="../assets/js/plugins/chartist.min.js">
-                </script>
-                <!--  Notifications Plugin    -->
-                <script src="../assets/js/plugins/bootstrap-notify.js">
-                </script>
-                <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-                <script src="../assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript">
-                </script>
-                <script>
-                    $(document).ready(function() {
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<h1><center>WELCOME</center></h1>
+<center><table id ="mytable" border=1><tr><td>ID</td><td>Title</td><td>Body</td><td>Author</td><td>Category id</td><td>ACTION</td></tr></table></center>
+<script>
+$(document).ready(function() {
  // executes when HTML-Document is loaded and DOM is ready
  $.ajax({
             type: "POST",
@@ -449,26 +17,27 @@
                 if (data)
                 {
             
-                 var person = JSON.stringify(data['data'][0]);
+                 var person = JSON.stringify(data['data']);
                  var tbl=$("<table border=1><center>").attr("id","mytable");
                  //$("#div1").append(tbl);
                  
-                 for(var i=1;i<person.length;i++)
+                 for(var i=0;i<=person.length;i++)
                  {
                     var stddata = JSON.stringify(data['data'][i]);
                     var obj = $.parseJSON(stddata);
-                    var pid = obj["id"];
-                    
+                    var pid = obj["profileid"];
+                    //alert(pid);
                     var obj = $.parseJSON(stddata);
-                    var pid = obj["id"]['i'];
+                    var pid = obj["profileid"]['i'];
+                    
                     //document.getElementById("id").value = pid;
                     //document.getElementById("id").innerHTML = pid;
                     var tr="<tr>";
-                    var td1="<td>"+obj["id"]+"</td>";
-                    var td2="<td>"+obj["title"]+"</td>";
-                    var td3="<td>"+obj["body"]+"</td>";
-                    var td4="<td>"+obj["author"]+"</td>";
-                    var td5="<td>"+obj["category_id"]+"</td>";
+                    var td1="<td>"+obj["username"]+"</td>";
+                    var td2="<td>"+obj["email"]+"</td>";
+                    var td3="<td>"+obj["phone"]+"</td>";
+                    var td4="<td>"+obj["address1"]+"</td>";
+                    var td5="<td>"+obj["address2"]+"</td>";
                     var td6="<td><button  id='id' value= 'id' onclick=fu(this.value);>"+obj["id"]+"</button></td>";
                     var td7="<td><a href=edit.php?id= >UPDATE</a></td></tr>";
                     $("#mytable").append(tr+td1+td2+td3+td4+td5+"<td><button  id='id' value= '"+obj["id"]+"' onclick=fu(this.value);>DELETE</button></td>"+"<td><button><a href=edit.php?id='"+obj["id"]+"'>EDIT</button></td>");
@@ -481,9 +50,53 @@
             }
         });
 });
-                </script>
-                
-            </div>
-        </div>
-    </body>
+
+</script>
+<script type="text/javascript">
+  function fu(id)
+  {
+    
+    var person={"id":id}
+    $.ajax({
+            type: "POST",
+            url: "delete.php",
+            dataType: "json",
+            data: JSON.stringify(person),
+            success : function(data){
+                if (data){
+                  //$('#result').html(JSON.stringify(data));
+                   //alert(data.message);
+                   window.location.href="view.php";
+                } else {
+                    alert("error");
+                }
+            }
+        });
+
+  }
+  function update(id)
+  {
+
+    $.ajax({
+            type: "GET",
+            url: "read_single.php?id="+id,
+            dataType: "json",
+            
+            success : function(data){
+                if (data){
+                  alert(JSON.stringify(data));
+                } else {
+                    alert("error");
+                }
+            }
+        });
+
+  }
+</script>
+            
+        
+</body>
+
+</table>
+<a href="addproduct.php">GO</a>
 </html>

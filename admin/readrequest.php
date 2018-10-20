@@ -18,10 +18,11 @@ $db = $database->connect();
 $post = new Post($db);
 
 //Blog post query
-$result = $post->read();
+$result = $post->readrequest();
 //Get row count
 
 $num = $result->rowCount();
+
 //Check if any posts
 if($num > 0 ){
     // Post array
@@ -30,25 +31,15 @@ if($num > 0 ){
     $post_arr['data'] =  array();
     while($row = $result->fetch(PDO::FETCH_ASSOC))
     {
-        extract($row);
-            $post_item = array(
-            'profileid'=>$profileid,
-            'username' => $username,
-            'password' => $password,
-            'email' => $email,
-            'phone' => $phone,
-            'address1'=>$address1,
-            'address2'=>$address2,
-            'location'=>$location,
-            'sublocality'=>$sublocality,
-            'landmark'=>$landmark,
-            'city'=>$city,
-            'district'=>$district,
-            'state'=>$state
-        );
+            $post_item = array("service_location"=>$row["service_location"],
+            "usermessage"=>$row["usermessage"],
+            "username"=>$row["username"],
+            "servicedate"=>$row["servicedate"],
+            "username"=>$row["username"]);
         array_push($post_arr['data'], $post_item);
     }
-
+   print_r($post_arr['data']);
+   exit();
     //Json output
 
     echo json_encode($post_arr);

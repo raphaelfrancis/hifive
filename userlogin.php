@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE doctype html>
 <html lang="en">
     <head>
@@ -13,7 +16,7 @@
                 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css"/>
                 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
                     <!-- CSS Files -->
-                    <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet"/>
+                    <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet"/>
                 </link>
             </link>
         </link>
@@ -36,45 +39,40 @@
                                         
                                     </p>
                                 </div>
-
-                                 <div class ="row">
-
-                                                    <div class="form-group">
-                                                        <div class="col-md-12 col-md-offset-3">
-                                                             <div id="messages">
-                                                                 
-                                                             </div>
-                                                         </div>
-                                                    </div>
-                                                </div>
-                                <div class="card-body" >
-                                    <form method="post" method="post" action= "logincurl.php">
+                                <div class="card-body">
+                                    <form action="curluserlogin.php" method="post">
                                         <div class="form-group">
                                             <label for="username">
                                                 Username:
                                             </label>
-                                            <input class="form-control" name="uname" id="username" type="text">
+                                            <input class="form-control" name="uname" type="text">
                                             </input>
                                         </div>
                                         <div class="form-group">
                                             <label for="pwd">
                                                 Password:
                                             </label>
-                                            <input class="form-control" name="pwd" id="password" type="password">
+                                            <input class="form-control" name="pwd" type="password">
                                             </input>
                                         </div>
-                                        <button class="btn btn-primary" name="login" id="login" type="submit">
+                                        <button class="btn btn-primary" name="login" type="submit">
                                             Login
                                         </button>
                                     </form>
-                                    
+                                    <?php
+                                    if(isset($_SESSION["newresult"]))
+                                    {
+                                           
+                                    echo "<span style=color:green>Failed to login</span>";
+                                
+                                    }
+                                    session_destroy();
+                                    ?>
                                 </div>
                             </div>
                         </div>
+                       
                     </div>
-                    <script>
-                   
-                    </script>
                 
 
                     <footer class="footer">
@@ -90,35 +88,26 @@
                 </div>
             </div>
             <!--   Core JS Files   -->
-            <script src="../assets/js/core/jquery.min.js" type="text/javascript">
+            <script src="assets/js/core/jquery.min.js" type="text/javascript">
             </script>
-            <script src="../assets/js/core/popper.min.js" type="text/javascript">
+            <script src="assets/js/core/popper.min.js" type="text/javascript">
             </script>
-            <script src="../assets/js/core/bootstrap-material-design.min.js" type="text/javascript">
+            <script src="assets/js/core/bootstrap-material-design.min.js" type="text/javascript">
             </script>
-            <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js">
+            <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js">
             </script>
-            <!--Login form validation -->
-
-            <script type="text/javascript" src="/assets/js/loginvalidation.js"></script>
-
-
-
             <!--  Google Maps Plugin    -->
             <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE">
             </script>
             <!-- Chartist JS -->
-            <script src="../assets/js/plugins/chartist.min.js">
+            <script src="assets/js/plugins/chartist.min.js">
             </script>
             <!--  Notifications Plugin    -->
-            <script src="../assets/js/plugins/bootstrap-notify.js">
+            <script src="assets/js/plugins/bootstrap-notify.js">
             </script>
             <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-            <script src="../assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript">
+            <script src="assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript">
             </script>
-           
         </div>
-        
-       
     </body>
 </html>

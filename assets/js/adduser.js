@@ -135,27 +135,9 @@ return false;
 }
 
 else {
-alert("Form Submitted Successfuly!");
+//alert("Form Submitted Successfuly!");
 //return true;
 }
-
-var person = {"username":username,"firstname":firstname,"lastname":lastname,"email":email,"password":password,"phone":phone,"address1":address1,"address2":address2,"location":location,"sublocality":sublocality,"landmark":landmark,"city":city,"district":district,"state":state,"firstname":firstname,"lastname":lastname,"gender":gender,"age":age}
-	 
-	 
-$.ajax({
-	type: "POST",
-	url: "http://localhost/hifive/admin/create.php",
-	dataType: "json",
-	data: JSON.stringify(person),
-	success : function(data){
-		if (data){
-		   alert(data);
-		  
-		} else {
-			alert("error");
-		}
-	}
-});
 });
 });
 //document ready function ends

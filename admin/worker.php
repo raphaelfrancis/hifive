@@ -18,27 +18,22 @@ $db = $database->connect();
 $post = new Post($db);
 
 //Blog post query
-$result = $post->readrequest();
+$workerresult = $post->getworker();
 //Get row count
 
-$num = $result->rowCount();
+$num = $workerresult->rowCount();
 
 //Check if any posts
-if($num > 0 ){
+if($num >0){
     // Post array
 
     $post_arr = array();
     $post_arr['data'] =  array();
-    while($row = $result->fetch(PDO::FETCH_ASSOC))
+    while($row = $workerresult->fetch(PDO::FETCH_ASSOC))
     {
-            $post_item = array("service_location"=>$row["service_location"],
-            "usermessage"=>$row["usermessage"],
-            "firstname"=>$row["firstname"],
-            "servicedate"=>$row["servicedate"],
-            "servicename"=>$row["servicename"],
-			"servicetime"=>$row["servicetime"],
-			"categoryname"=>$row["categoryname"],
-			"idservice_request"=>$row["idservice_request"]);
+            $post_item = array(
+            'idprofiles'=>$row["idprofiles"],
+            "firstname"=>$row["firstname"]);
         array_push($post_arr['data'], $post_item);
     }
    

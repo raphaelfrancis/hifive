@@ -19,10 +19,19 @@ session_start();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //execute curl request
         $result = curl_exec($ch);
-        $newusername = json_decode($result);
-        $result = $newusername->message;
-
+        $userresult = json_decode($result);
+        foreach($userresult as $login)
+            {
+                foreach($login as $value)
+                {
+                    
+                    $_SESSION["username"]= $value->username;
+                    $_SESSION["type"]=$value->type;
+                    $_SESSION["idprofiles"]=$value->idprofiles;
+                }
+            }
         //close curl connection
+        
         curl_close($ch);
         
         if($result=="Failed")
@@ -32,9 +41,12 @@ session_start();
         }
         else
         {
-            $newresult = $newusername->username;
-            $_SESSION["username"] = $newresult;
-            header("location:servicerequest.php");
+            // $newresult = $userresult->username;
+            // $_SESSION["username"] = $newresult;
+            // $_SESSION["workerid"] = $userresult->idprofiles;
+            // echo $_SESSION["workerid"];
+            // exit();
+            header("location:viewservicerequest.php");
         }
         }
         ?>

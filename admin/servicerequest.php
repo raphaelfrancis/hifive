@@ -119,7 +119,7 @@ $getcategory = json_decode($result);
                                             Request Service
                                         </h4>
                                         <p class="card-category">
-                                            New Service
+                                            New Service<?php $userid = $_SESSION["idprofiles"];?>
                                         </p>
                                     </div>
                                     <div class="card-body">
@@ -183,6 +183,8 @@ $getcategory = json_decode($result);
                                                 </div>
                                                 </div>
                                             </div>
+                                            
+                                            
                                            
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -271,6 +273,7 @@ $getcategory = json_decode($result);
                                                     </div>
                                                     
                                                 </div>
+                                            <input type = "hidden" name = "userid" value = "<?php echo $userid;?>">
                                             <button class="btn btn-primary pull-right" type="submit" id="submit" name="submit">
                                                 Request
                                             </button>
@@ -369,15 +372,8 @@ $getcategory = json_decode($result);
   });
 </script>
 <script type="text/javascript">
-  $(document).ready(function()
-  {
-
-      $('#servicename').change(function(e)
-      {
-        var servicename = $("#serviceid").val();
-        alert(servicename);
-        }
-    });
+  
+  
 </script>
 </html>     
 

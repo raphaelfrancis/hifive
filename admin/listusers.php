@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -189,11 +192,8 @@ curl_close($ch);
                             </form>
                             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  
-                  
+                <a class="nav-link" href="logout.php">
                     Logout
-                  
                 </a>
               </li>
              </ul>

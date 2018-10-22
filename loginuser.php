@@ -31,21 +31,31 @@ $post->password = md5($data->password);
 // Create post
 
 if($qu=$post->login()){
-    if($qu=="1")
+   
+    $num = $qu->rowCount();
+    if($num>0)
     {
-        echo json_encode(array('message' => 'success'));
+        $post_arr = array();
+        $post_arr['data']= array();
+        while($row = $qu->fetch(PDO::FETCH_ASSOC))
+        {
+            $post_item = array("idprofiles"=>$row["idprofiles"],"username"=>$row["username"],"type"=>$row["type"],'message'=>"success");
+            array_push($post_arr['data'],$post_item);
+        }
+        echo json_encode($post_arr);
         return true;
     }
-    else
-    {
-        echo json_encode(array('message' => 'Failed'));
-        return true;
-       
-    }
-}
-else
-{
-        echo json_encode(array('message' => 'Failed'));
-        return true;
-    
+    // if($qu=="1")
+    // {
+    //     echo json_encode(array('message' => 'success',"username"=>$post->username));
+    //     return false;
+    // }
+    // else
+    // {
+    //     echo json_encode(array('message' => '$qu'));
+    //     return true;
+    // }
+}else{
+    echo json_encode(array('message' => 'Failed'));
+    return true;
 }

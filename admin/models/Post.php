@@ -78,10 +78,10 @@ class Post {
     //public $created;
     public $usermessage;
     public $service_location_address;
-    
-    
-   
+    public $worker_status;
     public $servicetime;
+    public $is_email;
+    public $workerid;
    
    
     
@@ -657,12 +657,13 @@ class Post {
             $no=$stmt->rowCount();
             if($no>0)
             {
-            return $no;
+            return $stmt;
             }
             else
             {
             return false;
             }
+            
         }
         echo 'Connection  Error' . $e->getMessage();
         //print error message if it has errors
@@ -1289,13 +1290,142 @@ class Post {
     }
     public function readrequest()
     {
-        $readservicerequest = "select * from service_requests INNER JOIN profiles on service_requests.userid = profiles.idprofiles";
+        $readservicerequest = "select * from service_requests inner join categories on service_requests.categoryid = categories.idcategory INNER join services on service_requests.service=services.idservices INNER JOIN profiles on service_requests.userid = profiles.idprofiles inner join profile_details on service_requests.userid = profile_details.profileid";
         $stmt = $this->conn->prepare( $readservicerequest);
         if($stmt->execute())
-            {
-            return $stmt;
+        {
+        return $stmt;
+        }
+        error_log("row => " . json_encode($row));
+       
+    }
+	 public function deleteservicerequest(){
+        //delete query
+        
+        $deleteservices = 'DELETE FROM ' . $this->table8 . ' WHERE idservice_request = :idservice_request';
+
+        //prepare statement
+
+        $stmt = $this->conn->prepare($deleteservices);
+
+        //clean data
+        $this->idservice_request = htmlspecialchars(strip_tags($this->idservice_request));
+
+        //Bind Data
+        $stmt->bindParam(':idservice_request', $this->idservice_request);
+
+
+         //Execute query
+
+         if($stmt->execute()){
+            return true;
+        }
+        echo 'Connection  Error' . $e->getMessage();
+        //print error message if it has errors
+
+        printf("Error: %s.\n", $stmt->error);
+
+
+        return false;
+
+
+    }
+	
+	public function read_singlerequest()
+	{
+		
+		$readsinglerequest = 'SELECT *
+            FROM 
+                service_requests
+           
+                WHERE idservice_request = "'.$this->idservice_request.'" ';
+         
+         $stmt = $this->conn->prepare($readsinglerequest);
+            // prepare query statement
+            $stmt->bindParam(':idservice_request', $this->idservice_request);
+           
+            // bind id of product to be updated
+         
+            // execute query
+           if($stmt->execute())
+           {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            // set values to object properties
+            $this->idservice_request = $row['idservice_request'];
+            $this->usermessage = $row['usermessage'];
+            $this->service_location = $row['service_location'];
+            $this->service_status = $row['service_status'];
+            $this->servicedate = $row['servicedate'];
+            $this->worker_status = $row['worker_status'];
+            $this->is_email = $row['is_email'];
+            return true;
+           }
+		
+		
+	}
+	public function updateservicerequest()
+	{
+		$this->updated = date('Y-m-d H:i:s');
+        
+            // $this->updated = $this->updateservices;
+            $updateservicerequest = 'UPDATE ' . $this->table8. '
+            SET 
+            workerid = :workerid,
+            usermessage = :usermessage,
+			service_location = :service_location,
+            servicedate = :servicedate,
+            worker_status = :worker_status,
+            is_email = :is_email,
+            updated = :updated 
+            WHERE 
+            idservice_request = :idservice_request';
+    
+            //Prepare statement
+    
+            $stmt = $this->conn->prepare($updateservicerequest);
+    
+            //clean data
+            $this->idservice_request = htmlspecialchars(strip_tags($this->idservice_request));
+            $this->workerid =  htmlspecialchars(strip_tags($this->workerid));
+			$this->usermessage = htmlspecialchars(strip_tags($this->usermessage));
+			$this->service_location = htmlspecialchars(strip_tags($this->service_location));
+            $this->servicedate = htmlspecialchars(strip_tags($this->servicedate));
+            $this->worker_status = htmlspecialchars(strip_tags($this->worker_status));
+            $this->is_email = htmlspecialchars(strip_tags($this->is_email));
+			$this->updated = htmlspecialchars(strip_tags($this->updated));
+			
+            $stmt->bindParam(':idservice_request', $this->idservice_request);
+            $stmt->bindParam(':workerid', $this->workerid);
+			$stmt->bindParam(':usermessage', $this->usermessage);
+			$stmt->bindParam(':service_location', $this->service_location);
+            $stmt->bindParam(':servicedate', $this->servicedate);
+            $stmt->bindParam(':worker_status', $this->worker_status);
+            $stmt->bindParam(':is_email', $this->is_email);
+			$stmt->bindParam(':updated', $this->updated);
+			
+			
+			 if($stmt->execute()){
+
+              return true;
+
             }
-            error_log("row => " . json_encode($row));
+            echo 'Connection  Error' . $e->getMessage();
+            //print error message if it has errors
+    
+            printf("Error: %s.\n", $stmt->error);
+            return false;
+		
+		
+	}
+    public function getworker()
+    {
+        $selectworker = "select firstname,idprofiles from profiles INNER JOIN profile_details on profiles.idprofiles = profile_details.profileid where type = 'W'";
+        $stmt = $this->conn->prepare($selectworker);
+        if($stmt->execute())
+        {
+        return $stmt;
+        }
+        error_log("row => " . json_encode($row));
        
     }
 

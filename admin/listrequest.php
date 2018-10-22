@@ -21,8 +21,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //execute curl request
 $newdata = curl_exec($ch);
 $result = json_decode($newdata);
-echo $result;
-exit();
+
 //close curl connection
 curl_close($ch);
 //print result
@@ -225,8 +224,8 @@ curl_close($ch);
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead class=" text-primary">
-                                                    <th>User id</th>
-                                                    <th>Worker id</th>
+                                                    <th>Servicedate</th>
+                                                    <th>Username</th>
                                                     <th>Service</th>
                                                     <th>Category</th>
                                                     <th>Message</th>
@@ -234,26 +233,62 @@ curl_close($ch);
                                                     
                                                 </thead>
                                                 <tbody>
-                                                   <tr><td>dsdsf</td>
-                                                   <td>dsdsf</td>
-                                                   <td>dsdsf</td>
-                                                   <td>dsdsf</td>
-                                                   <td>dsdsf</td>
-                                                   <td>dsdsf</td>
-                                                    <td>
-                                                        <a href="listrequestmore.html">View
-                                                <button class="btn btn-sm btn-success" rel="tooltip" type="button">
-                                                    <i class="material-icons">
-                                                        add_box
-                                                    </i>
-                                                 </button>
-                                            </a>
-                                                    </td>
+												<?php
+                                                
+												if($result)
+												{
+												foreach($result as $value)
+												{
+													foreach($value as $data)
+													{
+												?>
+                                                   <tr><td><?php echo $data->servicedate;?></td>
+                                                   <td><?php echo $data->firstname;?></td>
+                                                   <td><?php echo $data->servicename;?></td>
+                                                   <td><?php echo $data->categoryname;?></td>
+                                                   <td><?php echo $data->usermessage;?></td>
+                                                   <td><?php echo $data->service_location;?></td>
+                                                    
+													<td>
+													 <a href="editcurlservicerequest.php?id=<?php echo $data->idservice_request;?>">
+                                                                <button class="btn btn-sm btn-success" rel="tooltip" type="button">
+                                                                    <i class="material-icons">
+                                                                        edit
+                                                                    </i>
+                                                                </button>
+                                                            </a></td>
+                                                            <td><a href="curldeleterequest.php?id=<?php echo $data->idservice_request;?>">
+                                                                <button class="btn btn-sm btn-danger" rel="tooltip" type="button">
+                                                                    <i class="material-icons">
+                                                                       close
+                                                                    </i>
+                                                                </button>
+                                                            </a>
+													</td>
 
                                                     </tr>
                                                 </tbody>
+												<?php
+													}
+												}
+												}
+												else
+												{
+													echo "No records Found";
+                                                }
+												?>
                                             </table>
-                                           
+                                            <?php
+                                            if(isset($_GET["result"]))
+                                            {
+                                                $success = $_GET["result"];
+                                                echo "<span style=color:green;>$success</span>";
+                                            }
+                                            // if(empty($success))
+                                            // {
+                                            //     echo "<span style=color:red;></span>";
+                                            // }
+                                           ?>
                                         </div>
                                     </div>
                                 </div>

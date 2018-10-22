@@ -13,7 +13,8 @@ class Post {
     public $type;
     public $username;
     public $password;
-    
+    public $userid;
+    public $workerid;
 
     //constructor
 
@@ -27,7 +28,7 @@ class Post {
    
     public function login()
     {
-        $this->type="U";
+        $this->type="W";
         $query = 'SELECT * FROM ' . $this->table . ' WHERE username = :username and password=:password and type=:type';
 
         //prepare statement
@@ -52,7 +53,7 @@ class Post {
             $no=$stmt->rowCount();
             if($no>0)
             {
-            return $no;
+            return $stmt;
             }
             else
             {
@@ -68,6 +69,39 @@ class Post {
         return false;
        
     }//login function ends
+
+    public function read_singlerequest()
+	{
+		
+		$readsinglerequest = 'SELECT *
+            FROM 
+                service_requests
+           
+                WHERE userid = "'.$this->workerid.'" ';
+         
+         $stmt = $this->conn->prepare($readsinglerequest);
+            // prepare query statement
+            $stmt->bindParam(':userid', $this->userid);
+           
+            // bind id of product to be updated
+         
+            // execute query
+           if($stmt->execute())
+           {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            // set values to object properties
+            $this->idservice_request = $row['idservice_request'];
+            $this->usermessage = $row['usermessage'];
+            $this->service_location = $row['service_location'];
+            $this->service_status = $row['service_status'];
+            $this->servicedate = $row['servicedate'];
+            $this->worker_status = $row['worker_status'];
+            $this->is_email = $row['is_email'];
+            return true;
+           }
+		
+		
+	}
 
  
 }//class ends

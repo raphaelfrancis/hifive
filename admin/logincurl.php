@@ -22,17 +22,25 @@ session_start();
         
         //close curl connection
         curl_close($ch);
-        $resultmessage = $newusername->message;
-       
-        if($resultmessage=="Failed")
+        if($newusername->message=="Failed")
         {
             header("location:index.php");
         }
         else
         {
-            $newresult = $newusername->username;
-            $_SESSION["username"] = $newresult;
+            
+            foreach($newusername as $login)
+            {
+                foreach($login as $value)
+                {
+                    $_SESSION["username"]= $value->username;
+                    $_SESSION["type"]=$value->type;
+                    $_SESSION["idprofiles"]=$value->idprofiles;
+                }
+            }
+           
             header("location:listusers.php");
         }
+        
         }
         ?>

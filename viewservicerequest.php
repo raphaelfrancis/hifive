@@ -1,9 +1,44 @@
+<?php
+session_start();
+$data = array();
+//Option 1: Convert data array to json if you want to send data as json
+$username = $_SESSION["username"];
+$idprofiles = $_SESSION["idprofiles"];
+
+//Option 2: else send data as post array.
+//$data = urldecode(http_build_query($data));
+/****** curl code ****/
+//init curl
+$ch = curl_init();
+// URL to be called
+curl_setopt($ch, CURLOPT_URL, "http://localhost/hifive/readrequest.php?id=$idprofiles");
+//set post TRUE to do a regular HTTP POST
+curl_setopt($ch, CURLOPT_POST, 1);
+//set http headers - if you are sending as json data (i.e. option 1) else comment this 
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+//send post data
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+//return as output instead of printing it
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//execute curl request
+$newdata = curl_exec($ch);
+$result = json_decode($newdata);
+
+//close curl connection
+curl_close($ch);
+//print result
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
-        <link href="../assets/img/apple-icon.png" rel="apple-touch-icon" sizes="76x76">
-            <link href="../assets/img/favicon.png" rel="icon" type="image/png">
+        <link href="assets/img/apple-icon.png" rel="apple-touch-icon" sizes="76x76">
+            <link href="assets/img/favicon.png" rel="icon" type="image/png">
                 <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
                 <title>
                     Hifive
@@ -15,22 +50,23 @@
                 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
                     <!-- CSS Files -->
-                    <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet"/>
+                    <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet"/>
                    
             </link>
         </link>
     </head>
+   
     <body class="">
         <div class="wrapper ">
             <div class="sidebar" data-background-color="white" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
-             
+               
                 <div class="logo">
                     <a class="simple-text logo-normal" href="#">
-                        Hifive 
+                        Hifive
                     </a>
                 </div>
                 <div class="sidebar-wrapper">
-                   <ul class="nav">
+                    <ul class="nav">
                         <li class="nav-item">
                             <a class="nav-link" href="dashboard.html">
                                 <i class="material-icons">
@@ -41,7 +77,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                         <li class="nav-item ">
                             <a class="nav-link" href="./userlist.html">
                                 <i class="material-icons">
                                     person
@@ -51,7 +87,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item active  ">
+                        <li class="nav-item  ">
                             <a class="nav-link" href="./adduserfield.html">
                                 <i class="material-icons">
                                     person
@@ -89,6 +125,16 @@
                                 </i>
                                 <p>
                                     Services
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item active ">
+                            <a class="nav-link" href="./services.html">
+                                <i class="material-icons">
+                                    work
+                                </i>
+                                <p>
+                                    Service Requests
                                 </p>
                             </a>
                         </li>
@@ -170,7 +216,7 @@
                                 <div class="card">
                                     <div class="card-header card-header-primary">
                                         <h4 class="card-title ">
-                                            New User Field
+                                            Service Requests
                                         </h4>
                                         <p class="card-category">
                                             Here is a subtitle for this table
@@ -180,51 +226,71 @@
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead class=" text-primary">
-                                                    <tr><th>Field name</th>
-                                                    <th>Type</th>
-                                                    <th>Length</th></tr>
+                                                    <th>Servicedate</th>
+                                                    <th>Username</th>
+                                                    <th>Service</th>
+                                                    <th>Category</th>
+                                                    <th>Message</th>
+                                                    <th>Location</th>
+                                                    
                                                 </thead>
                                                 <tbody>
-                                                   <tr><td>dob</td>
-                                                    <td>date</td><td>30</td><td><a href="edituserfield.html">
-                                                                <button class="btn btn-sm btn-success" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                        edit
-                                                                    </i>
-                                                                </button>
-                                                            </a>
-                                                            <a href="#">
-                                                                <button class="btn btn-sm btn-danger" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                        close
-                                                                    </i>
-                                                                </button>
-                                                            </a></td></tr>
-                                                   <tr><td>nfdf</td>
-                                                    <td>fkenf</td><td>20</td><td><a href="edituserfield.html
-                                                        ">
-                                                                <button class="btn btn-sm btn-success" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                        edit
-                                                                    </i>
-                                                                </button>
-                                                            </a>
-                                                            <a href="#">
-                                                                <button class="btn btn-sm btn-danger" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                        close
-                                                                    </i>
-                                                                </button>
-                                                            </a></td></tr>
-                                                   
-                                                </tbody>
-                                            </table>
-                                            <a href="adduserfield.html" class="btn btn-sm btn-success" role="button">
-                                                    <i class="material-icons">
-                                                        add_box
-                                                    </i>
+												<?php
                                                 
-                                            </a>
+												if($result)
+												{
+												foreach($result as $value)
+												{
+													foreach($value as $data)
+													{
+												?>
+                                                   <tr><td><?php echo $data->servicedate;?></td>
+                                                   <td><?php echo $data->firstname;?></td>
+                                                   <td><?php echo $data->servicename;?></td>
+                                                   <td><?php echo $data->categoryname;?></td>
+                                                   <td><?php echo $data->usermessage;?></td>
+                                                   <td><?php echo $data->service_location;?></td>
+                                                    
+													<td>
+													 <a href="editcurlservicerequest.php?id=<?php echo $data->idservice_request;?>">
+                                                                <button class="btn btn-sm btn-success" rel="tooltip" type="button">
+                                                                    <i class="material-icons">
+                                                                        edit
+                                                                    </i>
+                                                                </button>
+                                                            </a></td>
+                                                            <td><a href="curldeleterequest.php?id=<?php echo $data->idservice_request;?>">
+                                                                <button class="btn btn-sm btn-danger" rel="tooltip" type="button">
+                                                                    <i class="material-icons">
+                                                                       close
+                                                                    </i>
+                                                                </button>
+                                                            </a>
+													</td>
+
+                                                    </tr>
+                                                </tbody>
+												<?php
+													}
+												}
+												}
+												else
+												{
+													echo "No records Found";
+                                                }
+												?>
+                                            </table>
+                                            <?php
+                                            if(isset($_GET["result"]))
+                                            {
+                                                $success = $_GET["result"];
+                                                echo "<span style=color:green;>$success</span>";
+                                            }
+                                            // if(empty($success))
+                                            // {
+                                            //     echo "<span style=color:red;></span>";
+                                            // }
+                                           ?>
                                         </div>
                                     </div>
                                 </div>
@@ -245,13 +311,13 @@
                     </div>
                 </div>
                 <!--   Core JS Files   -->
-                <script src="../assets/js/core/jquery.min.js" type="text/javascript">
+                <script src="assets/js/core/jquery.min.js" type="text/javascript">
                 </script>
-                <script src="../assets/js/core/popper.min.js" type="text/javascript">
+                <script src="assets/js/core/popper.min.js" type="text/javascript">
                 </script>
-                <script src="../assets/js/core/bootstrap-material-design.min.js" type="text/javascript">
+                <script src="assets/js/core/bootstrap-material-design.min.js" type="text/javascript">
                 </script>
-                <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js">
+                <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js">
                 </script>
                 <!--  Google Maps Plugin    -->
                 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE">

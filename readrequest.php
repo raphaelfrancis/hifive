@@ -19,24 +19,29 @@ $post = new Post($db);
 
 
 // Get ID
-$post->idservice_request = isset($_GET['id']) ? $_GET['id'] : die('could not get the value');
-
+$post->workerid = isset($_GET['id']) ? $_GET['id'] : die('could not get the value');
+echo $post->workerid;
+exit();
 //Get post
 
-if($post->idservices){
+if($post->read_singlerequest()){
     
     
-    $result = $post->read_singleservice();
+    $result = $post->read_singlerequest();
 //Create array
     $product_arr = array(
-    "idservices"=>$post->idservices,
-    "servicename" =>  $post->servicename
+    "idservice_request"=>$post->idservice_request,
+    "usermessage" =>  $post->usermessage,
+	"service_location"=> $post->service_location,
+	"service_status"=> $post->service_status,
+    "servicedate"=>$post->servicedate,
+    "worker_status"=>$post->worker_status,
+    "is_email"=>$post->is_email,
     
 );
 //Json output
 
     if(count($product_arr) > 0){
-        
         echo json_encode($product_arr);
         return true;
     }

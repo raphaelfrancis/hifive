@@ -1,19 +1,17 @@
 <?php
+session_start();
+$workerid = $_POST["workerid"];
 $userid = $_POST["userid"];
-$catid = $_POST["catid"];
 $usermessage = $_POST["usermessage"];
-$service = $_POST["servicename"];
-$location = $_POST["location"];
-$address = $_POST["address"];
-$amount = $_POST["amount"];
-$date = $_POST["date"];
-$time = $_POST["time"];
-
-
-$data = array("userid"=>"$userid","categoryid"=>"$catid","service"=>$service, "usermessage" =>"$usermessage", "service_location" =>"$location","amount"=>"$amount","servicedate"=>"$date","time"=>$time,"createdby"=>"2031958674");
+$idservice_request = $_POST["idservice_request"];
+$servicedate = $_POST["servicedate"];
+$service_location = $_POST["service_location"];
+$worker_status = $_POST["worker_status"];
+$is_email = $_POST["is_email"];
+$editservicedata = array("idservice_request"=>$idservice_request,"userid"=>$userid,"workerid"=>$workerid, "servicedate"=>"$servicedate", "service_location" =>"$service_location","usermessage"=>"$usermessage","worker_status"=>"$worker_status","is_email"=>"$is_email");
 
 //Option 1: Convert data array to json if you want to send data as json
-$data = json_encode($data);
+$data = json_encode($editservicedata);
 
 //Option 2: else send data as post array.
 //$data = urldecode(http_build_query($data));
@@ -21,7 +19,7 @@ $data = json_encode($data);
 //init curl
 $ch = curl_init();
 // URL to be called
-curl_setopt($ch, CURLOPT_URL, "http://localhost/hifive/admin/addservicerequest.php");
+curl_setopt($ch, CURLOPT_URL, "http://localhost/hifive/admin/updateservicerequest.php");
 //set post TRUE to do a regular HTTP POST
 curl_setopt($ch, CURLOPT_POST, 1);
 //set http headers - if you are sending as json data (i.e. option 1) else comment this 
@@ -32,14 +30,16 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //execute curl request
 $result = curl_exec($ch);
-echo $result;
-exit();
+$success = json_decode($result);
+
 //close curl connection
 curl_close($ch);
 //print result
-// print_r($result);
-if(isset($result))
+if($result)
 {
-    header("location:listrequest.php");
+    $result = $success->message;
+    header("location:listrequest.php?result=$result");
 }
+
+
 ?>

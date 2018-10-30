@@ -195,7 +195,7 @@ curl_close($ch);
                             </form>
                             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#pablo">
+                <a class="nav-link" href="logout.php">
                   
                   
                     Logout

@@ -39,7 +39,7 @@ if($qu=$post->login()){
         $post_arr['data']= array();
         while($row = $qu->fetch(PDO::FETCH_ASSOC))
         {
-            $post_item = array("idprofiles"=>$row["idprofiles"],"username"=>$row["username"],"type"=>$row["type"],'message'=>"success");
+            $post_item = array("idprofiles"=>$row["idprofiles"],"username"=>$row["username"],"type"=>$row["type"],"email"=>$row["email"],"phone"=>$row["phone"],'message'=>"success");
             array_push($post_arr['data'],$post_item);
         }
         echo json_encode($post_arr);
@@ -56,6 +56,6 @@ if($qu=$post->login()){
     //     return true;
     // }
 }else{
-    echo json_encode(array('message' => 'Failed'));
+    echo json_encode(array());
     return true;
 }

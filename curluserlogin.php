@@ -20,33 +20,38 @@ session_start();
         //execute curl request
         $result = curl_exec($ch);
         $userresult = json_decode($result);
-        foreach($userresult as $login)
-            {
-                foreach($login as $value)
-                {
-                    
-                    $_SESSION["username"]= $value->username;
-                    $_SESSION["type"]=$value->type;
-                    $_SESSION["idprofiles"]=$value->idprofiles;
-                }
-            }
         //close curl connection
         
         curl_close($ch);
-        
-        if($result=="Failed")
+        if(!empty($userresult))
         {
-            $_SESSION["login"]="Failed";
-            header("location:userlogin.php");
+            foreach($userresult as $login)
+            {
+                foreach($login as $value)
+                {
+                    $_SESSION["username"]= $value->username;
+                    $_SESSION["idprofiles"]= $value->idprofiles;
+                    $_SESSION["type"] = $value->type;
+                    $_SESSION["message"] = $value->message;
+                    $_SESSION["email"] = $value->email;
+                    $_SESSION["phone"] = $value->phone;
+                }
+               
+            }
+            if( $_SESSION["type"]=='U')
+            {
+            header("location:viewdetails.php");
+            }
+            else
+            {
+                header("location:viewworkerdetails.php");
+            }
         }
         else
         {
-            // $newresult = $userresult->username;
-            // $_SESSION["username"] = $newresult;
-            // $_SESSION["workerid"] = $userresult->idprofiles;
-            // echo $_SESSION["workerid"];
-            // exit();
-            header("location:viewservicerequest.php");
+            $_SESSION["login"]="Failed";
+            header("location:viewdetails.php");
         }
+        
         }
         ?>

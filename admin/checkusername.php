@@ -29,13 +29,19 @@ $post->username = $data->username;
 
 // Create post
 
-if($result=$post->check())
+if($result=$post->checkusername())
    {
-        if($result=="1")
-        {
+    $no = $result->rowCount();
+    if($no>0)
+    {
         echo json_encode(array('message' =>'success'));
-        return true;
-        }
+        return $no;
+    }
+    else
+    {
+        return false;
+    }
+   
        
    }
 else

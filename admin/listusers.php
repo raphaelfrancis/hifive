@@ -103,7 +103,7 @@ curl_close($ch);
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a class="nav-link" href="./categories.html">
+                            <a class="nav-link" href="addcategory.php">
                                 <i class="material-icons">
                                     supervised_user_circle
                                 </i>
@@ -114,7 +114,7 @@ curl_close($ch);
                         </li>
                         
                         <li class="nav-item  ">
-                            <a class="nav-link" href="./services.html">
+                            <a class="nav-link" href="addservices.php">
                                 <i class="material-icons">
                                     work
                                 </i>

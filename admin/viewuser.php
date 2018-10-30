@@ -46,7 +46,6 @@ $newdata = json_decode($result);
 //close curl connection
 curl_close($ch);
 //print result
-
 ?>
 <body class="">
   <div class="wrapper ">

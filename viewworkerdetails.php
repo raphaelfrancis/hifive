@@ -1,7 +1,8 @@
 <?php
 session_start();
-if($_SESSION["idprofiles"])
+if($_SESSION["idprofiles"]&&$_SESSION["type"]=='W')
 {
+    $workerid = $_SESSION["idprofiles"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,37 +26,6 @@ if($_SESSION["idprofiles"])
             </link>
         </link>
     </head>
-    <?php
-$id = $_GET["id"];
-$data = array("id"=>$id);
-//Option 1: Convert data array to json if you want to send data as json
-//$data = json_encode($data);
-
-//Option 2: else send data as post array.
-//$data = urldecode(http_build_query($data));
-/****** curl code ****/
-//init curl
-$ch = curl_init();
-// URL to be called
-curl_setopt($ch, CURLOPT_URL, "http://localhost/hifive/getservicerequest.php?id=$id");
-//set post TRUE to do a regular HTTP POST
-curl_setopt($ch, CURLOPT_POST, 1);
-//set http headers - if you are sending as json data (i.e. option 1) else comment this 
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-//send post data
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-//return as output instead of printing it
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//execute curl request
-$result = curl_exec($ch);
-$newdata = json_decode($result);
-
-
-//$newdata = json_decode($result);
-//close curl connection
-curl_close($ch);
-//print result
-?>
    
     <body class="">
         <div class="wrapper ">
@@ -68,46 +38,8 @@ curl_close($ch);
                 </div>
                 <div class="sidebar-wrapper">
                     <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="dashboard.html">
-                                <i class="material-icons">
-                                    dashboard
-                                </i>
-                                <p>
-                                    Dashboard
-                                </p>
-                            </a>
-                        </li>
-                         <li class="nav-item ">
-                            <a class="nav-link" href="./userlist.html">
-                                <i class="material-icons">
-                                    person
-                                </i>
-                                <p>
-                                    Users
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a class="nav-link" href="./adduserfield.html">
-                                <i class="material-icons">
-                                    person
-                                </i>
-                                <p>
-                                    Add custom user field
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a class="nav-link" href="./workerlist.html">
-                                <i class="material-icons">
-                                    person
-                                </i>
-                                <p>
-                                    Workers
-                                </p>
-                            </a>
-                        </li>
+                       
+                         
                         <li class="nav-item  ">
                             <a class="nav-link" href="./categories.html">
                                 <i class="material-icons">
@@ -130,7 +62,7 @@ curl_close($ch);
                             </a>
                         </li>
                         <li class="nav-item active ">
-                            <a class="nav-link" href="./services.html">
+                            <a class="nav-link" href="viewservicerequest.php?id=<?php echo $workerid;?>">
                                 <i class="material-icons">
                                     work
                                 </i>
@@ -139,16 +71,7 @@ curl_close($ch);
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="notifications.html">
-                                <i class="material-icons">
-                                    notification_important
-                                </i>
-                                <p>
-                                    Notifications
-                                </p>
-                            </a>
-                        </li>
+                      
                         <li class="nav-item ">
                             <a class="nav-link" href="usersettings.php">
                                 <i class="material-icons">
@@ -223,61 +146,96 @@ curl_close($ch);
                                             Here is a subtitle for this table
                                         </p>
                                     </div>
+                                    <?php
+                                    $username = $_SESSION["username"];
+                                    $idprofiles = $_SESSION["idprofiles"];
+                                    $type = $_SESSION["type"];
+                                    $email = $_SESSION["email"];
+                                    $phone = $_SESSION["phone"];
+                                    ?>
                                     <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead class=" text-primary">
-                                                    <th>Usermessage</th>
-                                                    <th>Servicelocation</th>
-                                                    <th>ServiceDate</th>
-                                                    <th>Worker_Status</th> 
-                                                    <th>User Details</th>
-                                                </thead>
-                                                <tbody>
-												<?php
-                                                
-												if($newdata)
-												{
-                                                    foreach($newdata as $data)
-                                                    {
-                            
-                                                        ?>
-                                                   <tr>
-                                                   <td><?php echo $data->usermessage;?></td>
-                                                   <td><?php echo $data->service_location;?></td>
-                                                   <td><?php echo $data->servicedate;?></td>
-                                                   <td><?php echo $data->idservice_request;?></td>
-													<td>
-													 <a href="editservicerequest.php?id=<?php echo $data->idservice_request;?>">
-                                                                <button class="btn btn-sm btn-success" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                        edit
-                                                                    </i>
-                                                                </button>
-                                                            </a></td>
-                                                            <td><a href="deleterequest.php?id=<?php echo $data->idservice_request;?>">
-                                                                <button class="btn btn-sm btn-danger" rel="tooltip" type="button">
-                                                                    <i class="material-icons">
-                                                                       close
-                                                                    </i>
-                                                                </button>
-                                                            </a>
-                                                    </td>
-                                                    </tr>
-                                                </tbody>
-												<?php
-                                                
-                                                }
-												}
-												else
-												{
-													echo "No records Found";
-                                                }
-												?>
-                                            </table>
-                                           
-                                        </div>
-                                    </div>
+                  <div class="table-responsive">
+                    <table class="table">
+                      
+                        <tr>
+                        <th>
+                          ID
+                        </th>
+                        <td>
+                           
+                          </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Username
+                        </th>
+                        <td>
+                          <?php
+                        echo $username;
+                        ?>
+                          </td>
+                      </tr>
+                     
+                        <tr>
+                        <th>
+                          Email
+                        </th>
+                        <td>
+                        <?php
+                       echo $email;
+                        ?>
+                          </td>
+                      </tr>
+                     
+                       
+                     
+                      <tr>
+                        <th>
+                          Phone
+                        </th>
+                        <td>
+                        <?php
+                        echo $phone;
+                        ?>
+                          </td>
+                      </tr>
+                      
+                     
+                                         
+                       
+                       
+                          
+                          
+                          
+                         
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          <td class = "text-left">
+                         
+               <a href= "editworker.php?id=<?php echo $idprofiles;?>"><button type="button" rel="tooltip" class="btn btn-success">
+                    <i class="material-icons">edit</i>
+                </button></a>
+                <button type="button" rel="tooltip" class="btn btn-danger">
+                    <i class="material-icons">close</i>
+                </button>
+                          </td>
+
+
+                        </tr>
+                       
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
                                 </div>
                             </div>
                         </div>
@@ -308,13 +266,13 @@ curl_close($ch);
                 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE">
                 </script>
                 <!-- Chartist JS -->
-                <script src="assets/js/plugins/chartist.min.js">
+                <script src="../assets/js/plugins/chartist.min.js">
                 </script>
                 <!--  Notifications Plugin    -->
-                <script src="assets/js/plugins/bootstrap-notify.js">
+                <script src="../assets/js/plugins/bootstrap-notify.js">
                 </script>
                 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-                <script src="assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript">
+                <script src="../assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript">
                 </script>
                 
             </div>

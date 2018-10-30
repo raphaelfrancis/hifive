@@ -159,6 +159,7 @@
                     </div>
                 </nav>
                 <!-- End Navbar -->
+                
                 <div class="content">
                     <div class="container-fluid">
                         <div class="row">
@@ -180,7 +181,7 @@
                                                     <div class="form-group">
                                                         <div class="col-md-12 col-md-offset-3">
                                                              <div id="messages">
-                                                                 
+                                                             <div id = "username_result"></div>
                                                              </div>
                                                          </div>
                                                     </div>
@@ -411,7 +412,7 @@
                                             <div class="clearfix">
                                             </div>
                                         </form>
-                                        <div id = "username_result"></div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -459,16 +460,31 @@
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript">
 </script>
-
-
-
-        </div>
+</div>
+<script type="text/javascript">
+ $(document).ready(function(){
+  $('#username').keyup(function(){
+    var username = $('#username').val();
+    var jsonData = {username:username};
+    $.ajax({
+     type: "POST",
+     url: "checkusername.php",
+     data: JSON.stringify(jsonData),
+     dataType: "json",
+     success: function(data)
+     {
+         
+        $('#username').val("");
+        $('#username_result').html('This person has already registered');
+        $('#username_result').css('color','red');
+     }
+      
+    }); //ajax ends
+   
+  });//user name change function ends
+ }); //document ready function ends
+</script> 
     </body>
-    <!-- <?php
-    // if(isset($_POST["submit"]))
-    // {
-    //         echo "welcome";
-    // }
-    ?> -->
+    
 </html>     
 

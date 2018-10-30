@@ -607,7 +607,7 @@ class Post {
     //Delete Post
 
     
-    public function check()
+    public function checkusername()
     {
         $query3 = "SELECT * FROM  $this->table WHERE username =:username";
      
@@ -619,15 +619,7 @@ class Post {
      
         if($stmt->execute())
         {
-            $no = $stmt->rowCount();
-            if($no>0)
-            {
-                return $no;
-            }
-            else
-            {
-                return false;
-            }
+            return $stmt;
         }
        
     }

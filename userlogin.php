@@ -33,7 +33,7 @@ session_start();
                             <div class="card">
                                 <div class="card-header card-header-primary">
                                     <h4 class="card-title ">
-                                        Admin Login
+                                        User or Worker Login
                                     </h4>
                                     <p class="card-category">
                                         
@@ -60,10 +60,10 @@ session_start();
                                         </button>
                                     </form>
                                     <?php
-                                    if(isset($_SESSION["newresult"]))
+                                    if(isset($_SESSION["login"]))
                                     {
                                            
-                                    echo "<span style=color:green>Failed to login</span>";
+                                    echo "<span style=color:red>Failed to login</span>";
                                 
                                     }
                                     session_destroy();

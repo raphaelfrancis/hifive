@@ -1,6 +1,6 @@
 <?php
 $username = $_POST["username"];
-$password = md5($_POST["password"]);
+$password = $_POST["password"];
 $firstname = $_POST["firstname"];
 $lastname = $_POST["lastname"];
 $age = $_POST["age"];
@@ -28,7 +28,7 @@ $data = json_encode($data);
 //init curl
 $ch = curl_init();
 // URL to be called
-curl_setopt($ch, CURLOPT_URL, "http://localhost/hifive/admin/update.php");
+curl_setopt($ch, CURLOPT_URL, "http://localhost/hifive/updateworker.php");
 //set post TRUE to do a regular HTTP POST
 curl_setopt($ch, CURLOPT_POST, 1);
 //set http headers - if you are sending as json data (i.e. option 1) else comment this 
@@ -44,7 +44,7 @@ curl_close($ch);
 //print result
 if($result)
 {
-    header("location:listusers.php");
+    echo "Updated Successfully";
 }
 
 
